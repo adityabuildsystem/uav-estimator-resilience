@@ -1,0 +1,78 @@
+# config.yaml: run configuration for the UAV Estimator Resilience Test Harness
+# All numbers below are PLACEHOLDERS. Replace the IMU noise values with
+# results from your own Allan-variance analysis of a real sensor.
+
+simulation:
+  duration_s: 120          # length of each run
+  imu_rate_hz: 100         # IMU sample rate
+  seed: 42                 # fixed seed so results are repeatable
+  trajectory: gentle_maneuvers   # options to implement: hover, gentle_maneuvers, aggressive
+
+imu_noise:                 # placeholder values, replace with measured ones
+  gyro:
+    noise_density: 0.005       # rad/s/sqrt(Hz)
+    bias_instability: 0.0005   # rad/s
+  accel:
+    noise_density: 0.02        # m/s^2/sqrt(Hz)
+    bias_instability: 0.005    # m/s^2
+
+estimator:
+  type: ekf_attitude
+  process_noise_q: 1.0e-4      # tune these; document how you chose them
+  measurement_noise_r: 1.0e-2
+  baseline: complementary      # filter to compare against
+
+faults:                    # each fault runs as its own scenario
+  - name: gyro_bias_step
+    sensor: gyro
+    type: bias_step
+    start_s: 40
+    magnitude: 0.05            # rad/s
+  - name: gyro_drift_ramp
+    sensor: gyro
+    type: drift_ramp
+    start_s: 40
+    rate: 0.002                # rad/s per second
+  - name: accel_dropout
+    sensor: accel
+    type: dropout
+    start_s: 40
+    duration_s: 5
+  - name: gyro_frozen
+    sensor: gyro
+    type: frozen
+    start_s: 40
+    duration_s: 5
+  - name: accel_spikes
+    sensor: accel
+    type: spikes
+    start_s: 40
+    probability: 0.02
+    magnitude: 5.0             # m/s^2
+  - name: gyro_noise_inflation
+    sensor: gyro
+    type: noise_inflation
+    start_s: 40
+    multiplier: 5
+  - name: accel_scale_error
+    sensor: accel
+    type: scale_factor
+    start_s: 40
+    factor: 1.1
+
+detector:
+  method: nis_chi_square       # normalised innovation squared test
+  window_samples: 20
+  confidence: 0.99             # threshold from chi-square distribution
+  persistence_samples: 3       # consecutive exceedances before flagging
+
+metrics:
+  recovery_error_threshold_deg: 2.0
+  fault_free_runs_for_false_alarm: 20
+
+report:
+  format: html                 # html or pdf
+  title: "Estimator Resilience Report"
+  include_plots_per_fault: true
+  include_recommendations: true
+  client_name: ""              # fill in for client work
