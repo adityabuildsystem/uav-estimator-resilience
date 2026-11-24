@@ -37,10 +37,10 @@ The stationary standard deviation controls the overall spread of the bias values
 
 The first-order Gauss-Markov process is represented by:
 
-\[
+$\[
 db(t)=-\frac{1}{\tau}b(t)\,dt+
 \sqrt{\frac{2\sigma_b^2}{\tau}}\,dW(t)
-\]
+\]$
 
 Where:
 
@@ -55,27 +55,27 @@ The first term represents mean reversion. The second term introduces stochastic 
 
 The simulation operates at discrete time intervals, so the continuous model is converted into an exact discrete-time transition:
 
-\[
+$\[
 b_{k+1}=\phi b_k+w_k
-\]
+\]$
 
 The transition coefficient is:
 
-\[
+$\[
 \phi=e^{-\Delta t/\tau}
-\]
+\]$
 
 The innovation is Gaussian:
 
-\[
+$\[
 w_k\sim\mathcal{N}(0,\sigma_w^2)
-\]
+\]$
 
 Its standard deviation is:
 
-\[
+$\[
 \sigma_w=\sigma_b\sqrt{1-\phi^2}
-\]
+\]$
 
 This choice preserves the stationary variance of the continuous-time process when sampled at interval \(\Delta t\).
 
@@ -107,9 +107,9 @@ The stationary bias standard deviation and the per-step innovation standard devi
 
 The initial bias is drawn from the stationary distribution:
 
-\[
+$\[
 b_0\sim\mathcal{N}(0,\sigma_b^2)
-\]
+\]$
 
 This avoids an artificial startup transient that would occur if every simulation began at zero and then gradually approached the stationary distribution.
 
@@ -153,15 +153,15 @@ An experiment using 10,000 independently seeded instances checks whether the ini
 
 The theoretical lag-\(k\) correlation is:
 
-\[
+$\[
 \rho_k=e^{-k\Delta t/\tau}
-\]
+\]$
 
 At lag one:
 
-\[
+$\[
 \rho_1=e^{-\Delta t/\tau}
-\]
+\]$
 
 The measured lag-one correlation is compared with this theoretical value using a numerical tolerance.
 
@@ -194,9 +194,9 @@ The bias generator is intended to be used as one component of a gyroscope measur
 
 Conceptually:
 
-\[
+$\[
 \omega_m=\omega_{\text{true}}+b+n
-\]
+\]$
 
 Where:
 
