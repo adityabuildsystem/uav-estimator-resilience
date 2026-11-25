@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-class WhiteNoiseGenerator():
+class WhiteNoiseGenerator:
     def __init__(self, noise_density, sample_rate_hz, seed):
 
         if not math.isfinite(noise_density):
