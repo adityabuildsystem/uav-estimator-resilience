@@ -63,3 +63,29 @@ def test_temporal_correlation():
     expected_correlation = np.exp(-dt / tau)
 
     assert abs(lag_one_correlation - expected_correlation) < 0.001, f"Lag-one correlation {lag_one_correlation} is not close to expected {expected_correlation}"
+
+def test_vector_bias_shape():
+    gen = GaussMarkovBias(0.01, 10, np.array([0.0005, 0.0006, 0.0004]), seed=42)
+
+    assert gen.bias.shape == (3,)
+    assert gen.step().shape == (3,)
+
+def test_scalar_bias_returns_float():
+    gen = GaussMarkovBias(0.01, 10, 0.0005, seed=42)
+    assert isinstance(gen.step(), float)
+
+def test_vector_reproducibility():
+    sigma_b = np.array([0.0005, 0.0006, 0.0004])
+    gen1 = GaussMarkovBias(0.01, 10, sigma_b, seed=42)
+    gen2 = GaussMarkovBias(0.01, 10, sigma_b, seed=42)
+
+    for _ in range(100):
+        np.testing.assert_array_almost_equal(gen1.step(), gen2.step())
+
+def test_vector_bias_axes_are_not_identical():
+    sigma_b = np.array([0.0005, 0.0005, 0.0005])
+    gen = GaussMarkovBias(0.01, 10, sigma_b, seed=42)
+    samples = np.array([gen.step() for _ in range(100)])
+
+    assert not np.array_equal(samples[:, 0], samples[:, 1])
+    assert not np.array_equal(samples[:, 1], samples[:, 2])
