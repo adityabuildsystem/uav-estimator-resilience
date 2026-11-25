@@ -200,9 +200,9 @@ $\[
 
 Where:
 
-- \(\omega_m\) is the measured angular rate.
-- \(\omega_{\text{true}}\) is the true angular rate.
-- \(b\) is the slowly varying Gauss-Markov bias.
-- \(n\) is the gyroscope white measurement noise.
+- $\(\omega_m\)$ is the measured angular rate.
+- $\(\omega_{\text{true}}\)$ is the true angular rate.
+- $\(b\)$ is the slowly varying Gauss-Markov bias.
+- $\(n\)$ is the gyroscope white measurement noise.
 
-The bias generator produces \(b\) only. The true angular rate and white measurement noise will be handled by the broader IMU simulation.
+The bias generator produces $\(b\)$ only. The true angular rate and white measurement noise will be handled by the broader IMU simulation.
