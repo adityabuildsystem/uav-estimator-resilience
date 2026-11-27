@@ -69,3 +69,8 @@ def test_zero_noise_density():
     generator = WhiteNoiseGenerator(0.0, 1000, seed=42)
     samples = [generator.sample() for _ in range(100)]
     assert all(sample == 0.0 for sample in samples), "All samples should be zero when noise density is zero"
+
+def test_vector_noise_shape():
+    gen = WhiteNoiseGenerator(0.005, 100,42)
+    noise = gen.sample(size=3)
+    assert noise.shape == (3,)

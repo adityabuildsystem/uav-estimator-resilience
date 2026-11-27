@@ -21,5 +21,5 @@ class WhiteNoiseGenerator:
         self.sigma_sample = self.noise_density*np.sqrt(self.sample_rate_hz/2)
 
 
-    def sample(self):
-        return self.rng.normal(0, self.sigma_sample)
+    def sample(self, size = None):
+        return self.rng.normal(0, self.sigma_sample, size=size)
